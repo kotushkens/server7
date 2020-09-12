@@ -3,9 +3,9 @@ package com.company;
 import java.io.*;
 import java.net.Socket;
 
+import org.slf4j.Logger;
 import Classes.SpaceMarine;
 import Commands.SerializedMessage;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**

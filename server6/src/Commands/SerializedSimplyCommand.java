@@ -13,5 +13,6 @@ public class SerializedSimplyCommand implements Serializable {
     }
 
     public Command getCommand() {
-        return command;}
+        return command;
+    }
 }

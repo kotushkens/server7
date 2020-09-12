@@ -24,12 +24,12 @@ public class Demonstrate {
                 "Координаты: %s\n" +
                 "Дата создания: %s\n" +
                 "Здоровье: %s\n" +
-                "Непонятное поле: %s\n"+
-                "Непонятное поле 2:" +
-                "Непонятное поле 3" +
+                "Heart Count: %s\n"+
+                "Melee Weapon: %s\n" +
+                "Chapter: %s\n" +
                         "_________________________________________________________\n", collection.getID(), collection.getNames(),
-        collection.getCoordinates(), collection.getCreationDate(), collection.getHealth(),collection.getHeartCount(),
-        collection.getMeleeWeapon(),collection.getChapter()
+        collection.getCoordinates().toString(), collection.getCreationDate(), collection.getHealth(),collection.getHeartCount(),
+        collection.getMeleeWeapon(),collection.getChapter().toString()
         );
 
         return info;

@@ -1,7 +1,6 @@
 package com.company;
 
 
-
 import Classes.SpaceMarine;
 import Exceptions.FileReaderException;
 
@@ -22,17 +21,21 @@ public class CollectionManager {
     private static File file;
     private static CollectionManager collectionManager;
 
-    private CollectionManager() {}
+    private CollectionManager() {
+    }
 
     public static CollectionManager getCollectionManager() {
-        if (collectionManager == null){
+        if (collectionManager == null) {
             collectionManager = new CollectionManager();
         }
         return collectionManager;
     }
 
     public static void initializeVector() {
-        if (collection == null) { collection = new Vector<SpaceMarine>(); creationDate = new Date(); }
+        if (collection == null) {
+            collection = new Vector<SpaceMarine>();
+            creationDate = new Date();
+        }
     }
 
     static Vector<SpaceMarine> getCollection() {
@@ -49,10 +52,10 @@ public class CollectionManager {
     }
 
     public String getInformation() {
-        String info ="";
-        System.out.println("Тип - "+ collection.getClass());
-        System.out.println("Дата - "+ creationDate);
-        System.out.println("Количество элементов - "+ collection.size());
+        String info = "";
+        System.out.println("Тип - " + collection.getClass());
+        System.out.println("Дата - " + creationDate);
+        System.out.println("Количество элементов - " + collection.size());
         return info;
     }
 
@@ -66,8 +69,10 @@ public class CollectionManager {
         String info = collection
                 .stream()
                 .map(Demonstrate::demonstrate)
-                .collect(Collectors.joining(", ")    );
-        if (info.equals("")) { info = "Не густо, а пусто"; }
+                .collect(Collectors.joining(", "));
+        if (info.equals("")) {
+            info = "Не густо, а пусто";
+        }
         return info;
 
     }
@@ -90,10 +95,10 @@ public class CollectionManager {
 
 
     public static void remove_by_id(Integer marineID) {
-        SpaceMarine sp=null;
-        for(SpaceMarine s:collection){
-            if(s.getID().equals(marineID)){
-                sp=s;
+        SpaceMarine sp = null;
+        for (SpaceMarine s : collection) {
+            if (s.getID().equals(marineID)) {
+                sp = s;
                 break;
             }
         }
@@ -102,7 +107,7 @@ public class CollectionManager {
 
 
     public static void update(SpaceMarine spaceMarine, Integer marineID) {
-        for (SpaceMarine SpaceMarineUpdate  : collection) {
+        for (SpaceMarine SpaceMarineUpdate : collection) {
             if (spaceMarine.getID().equals(marineID)) {
                 spaceMarine.setName(SpaceMarineUpdate.getNames());
                 spaceMarine.setID(SpaceMarineUpdate.getID());
@@ -112,27 +117,27 @@ public class CollectionManager {
                 spaceMarine.setHealth(SpaceMarineUpdate.getHealth());
                 spaceMarine.setCoordinates(SpaceMarineUpdate.getCoordinates());
             }
-        };
+        }
+        ;
     }
 
-    public String  AscendingHeight() {
+    public String AscendingHeight() {
         HeightComparator myHeightComparator = new HeightComparator();
-        if (collection.size()>0) {
+        if (collection.size() > 0) {
             collection.sort(myHeightComparator);
+        } else {
+            return "Коллекция пуста";
         }
-
-        else {return "Коллекция пуста"; }
         return AscendingHeight();
     }
 
     public String DescendingHeight() {
         HeightComparator myHeightComparator = new HeightComparator();
-        if (collection.size()>0) {
+        if (collection.size() > 0) {
             collection.sort(myHeightComparator);
             System.out.println("Отсортированный вариант:");
             Collections.reverse(collection);
-        }
-        else {
+        } else {
             return "Коллекция пуста";
         }
 
@@ -143,8 +148,7 @@ public class CollectionManager {
         if (!getCollection().isEmpty()) {
             collection.remove(collection.lastElement());
             System.out.println("Успешно устранено");
-        }
-        else {
+        } else {
             System.out.println("Не удалось удалить последний элемент потому что нечего удалять");
         }
     }

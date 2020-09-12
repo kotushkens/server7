@@ -22,6 +22,8 @@ public class Connections {
     private static ObjectInputStream in; // поток чтения из сокета
     private static final Logger logger = LoggerFactory.getLogger(Connections.class);
 
+
+
     public void run(String strPort) throws IOException {
         try {
             try {

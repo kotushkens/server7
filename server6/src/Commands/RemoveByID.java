@@ -15,8 +15,9 @@ public class RemoveByID extends Command {
         if (arg.split(" ").length == 1) {
             CommandReciever commandReceiver = new CommandReciever(socket);
             commandReceiver.remove_by_id(arg);
+        } else {
+            System.out.println("Проверьте количество аргументов");
         }
-        else { System.out.println("Проверьте количество аргументов"); }
     }
 }
 
