@@ -1,16 +1,17 @@
 package com.company;
 
-import Classes.SpaceMarine;
+import com.company.classes.SpaceMarine;
 
+import java.util.List;
 import java.util.Vector;
 
 
 public class Demonstrate {
 
     public static boolean checkExist(int ID) {
-        Vector<SpaceMarine> c = CollectionManager.getCollection();
+        List<SpaceMarine> c = CollectionManager.getCollection();
         for (SpaceMarine spaceMarine:CollectionManager.getCollection()) {
-            return spaceMarine.getID().equals(ID);
+            return spaceMarine.getId().equals(ID);
         }
         return false;
     }
@@ -27,7 +28,7 @@ public class Demonstrate {
                 "Heart Count: %s\n"+
                 "Melee Weapon: %s\n" +
                 "Chapter: %s\n" +
-                        "_________________________________________________________\n", collection.getID(), collection.getNames(),
+                        "_________________________________________________________\n", collection.getId(), collection.getNames(),
         collection.getCoordinates().toString(), collection.getCreationDate(), collection.getHealth(),collection.getHeartCount(),
         collection.getMeleeWeapon(),collection.getChapter().toString()
         );

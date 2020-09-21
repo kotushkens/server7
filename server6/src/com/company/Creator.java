@@ -1,15 +1,15 @@
 package com.company;
 
-import Classes.Chapter;
-import Classes.Coordinates;
-import Classes.MeleeWeapon;
-import Classes.SpaceMarine;
-import Exceptions.FieldException;
+import com.company.classes.Chapter;
+import com.company.classes.Coordinates;
+import com.company.classes.MeleeWeapon;
+import com.company.classes.SpaceMarine;
+import com.company.exceptions.FieldException;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
-import static Classes.MeleeWeapon.MANREAPER;
+import static com.company.classes.MeleeWeapon.MANREAPER;
 
 /**
  * Своего рода фабрика по созданию всего того, что нужно создать
