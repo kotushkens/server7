@@ -1,13 +1,17 @@
 package com.company.db;
 
-import com.company.classes.*;
+import Classes.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -135,7 +139,13 @@ public class DatabaseReader extends DatabaseConnection {
         res.setHeartCount(rs.getInt("heart_count"));
         res.setMeleeWeapon(MeleeWeapon.valueOf(rs.getString("melee_weapon").toUpperCase()));
         res.setName(rs.getString("name"));
-        res.setCreationDate(rs.getTimestamp("creation_date"));
+        res.setUser(getUserById(rs.getInt("user_id")).orElse(null));
+        try {
+            res.setCreationDate(new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(rs.getString("creation_date")));
+        } catch (ParseException e) {
+            logger.error("Не удалось распарсить дату создания.", e);
+            res.setCreationDate(new Date());
+        }
         res.setHeight(rs.getInt("height"));
         return res;
     }

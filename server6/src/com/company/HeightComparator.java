@@ -1,6 +1,6 @@
 package com.company;
 
-import com.company.classes.SpaceMarine;
+import Classes.SpaceMarine;
 
 import java.util.Comparator;
 

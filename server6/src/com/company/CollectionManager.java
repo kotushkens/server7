@@ -1,7 +1,8 @@
 package com.company;
 
 
-import com.company.classes.SpaceMarine;
+import Classes.SpaceMarine;
+import Classes.User;
 import com.company.db.DatabaseReader;
 import com.company.db.DatabaseWriter;
 import org.slf4j.Logger;
@@ -56,8 +57,14 @@ public class CollectionManager {
         return collection;
     }
 
-    public static void add(SpaceMarine spaceMarine) {
-        collection.add(spaceMarine);
+    public void add(SpaceMarine spaceMarine, User user) {
+        try (DatabaseWriter con = new DatabaseWriter()) {
+            spaceMarine.setUser(user);
+            con.saveSpaceMarine(spaceMarine);
+            collection.add(spaceMarine);
+        } catch (SQLException e) {
+            log.error("Не получилось добавить marine", e);
+        }
     }
 
     public static void addFromJson(SpaceMarine spaceMarine) {
@@ -66,15 +73,20 @@ public class CollectionManager {
     }
 
     public String getInformation() {
-        String info = "";
-        System.out.println("Тип - " + collection.getClass());
-        System.out.println("Дата - " + creationDate);
-        System.out.println("Количество элементов - " + collection.size());
-        return info;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Тип - ").append(collection.getClass()).append("\n");
+        sb.append("Дата - ").append(creationDate).append("\n");
+        sb.append("Количество элементов - ").append(collection.size()).append("\n");
+        return sb.toString();
     }
 
-    public static void clear() {
-        collection.clear();
+    public void clear() {
+        try (DatabaseWriter con = new DatabaseWriter()) {
+            con.drop();
+            collection.clear();
+        } catch (SQLException e) {
+            log.error("Не получилось очистить хранилище", e);
+        }
     }
 
     public String show() {
@@ -111,29 +123,39 @@ public class CollectionManager {
  */
 
 
-    public static void remove_by_id(Integer marineID) {
+    public void remove_by_id(Integer marineID) {
         SpaceMarine sp = null;
-        for (SpaceMarine s : collection) {
-            if (s.getId().equals(marineID)) {
-                sp = s;
-                break;
+        try (DatabaseWriter con = new DatabaseWriter()) {
+            con.deleteMarineById(marineID);
+            for (SpaceMarine s : collection) {
+                if (s.getId().equals(marineID)) {
+                    sp = s;
+                    break;
+                }
             }
+            collection.remove(sp);
+        } catch (SQLException e) {
+            log.error("Не получилось удалить marine по id", e);
         }
-        collection.remove(sp);
     }
 
 
-    public static void update(SpaceMarine spaceMarine, Integer marineID) {
-        for (SpaceMarine SpaceMarineUpdate : collection) {
-            if (spaceMarine.getId().equals(marineID)) {
-                spaceMarine.setName(SpaceMarineUpdate.getNames());
-                spaceMarine.setID(SpaceMarineUpdate.getId());
-                spaceMarine.setChapter(SpaceMarineUpdate.getChapter());
-                spaceMarine.setMeleeWeapon(SpaceMarineUpdate.getMeleeWeapon());
-                spaceMarine.setHeartCount(SpaceMarineUpdate.getHeartCount());
-                spaceMarine.setHealth(SpaceMarineUpdate.getHealth());
-                spaceMarine.setCoordinates(SpaceMarineUpdate.getCoordinates());
+    public void update(SpaceMarine spaceMarine, Integer marineID) {
+        try (DatabaseWriter con = new DatabaseWriter()){
+            con.updateMarineById(spaceMarine, marineID);
+            for (SpaceMarine SpaceMarineUpdate : collection) {
+                if (spaceMarine.getId().equals(marineID)) {
+                    spaceMarine.setName(SpaceMarineUpdate.getNames());
+                    spaceMarine.setID(SpaceMarineUpdate.getId());
+                    spaceMarine.setChapter(SpaceMarineUpdate.getChapter());
+                    spaceMarine.setMeleeWeapon(SpaceMarineUpdate.getMeleeWeapon());
+                    spaceMarine.setHeartCount(SpaceMarineUpdate.getHeartCount());
+                    spaceMarine.setHealth(SpaceMarineUpdate.getHealth());
+                    spaceMarine.setCoordinates(SpaceMarineUpdate.getCoordinates());
+                }
             }
+        } catch (SQLException e) {
+            log.error("Не получилось обновить marine", e);
         }
     }
 

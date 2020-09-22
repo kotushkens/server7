@@ -1,7 +1,7 @@
 package com.company;
 
-import com.company.classes.SpaceMarine;
-import com.company.exceptions.FileException;
+import Classes.SpaceMarine;
+import Exceptions.FileException;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.File;

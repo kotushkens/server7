@@ -45,8 +45,7 @@ public class Connections {
             System.exit(1);
         }
 
-        IntStream.range(0, LISTENERS_COUNT)
-                .forEach((x) -> listenersPool.invoke(new ListenerWorker(server, LISTENERS_COUNT)));
+        listenersPool.invoke(new ListenerWorker(server, LISTENERS_COUNT - 1));
     }
 
 }

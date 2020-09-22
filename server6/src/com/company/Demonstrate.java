@@ -1,9 +1,8 @@
 package com.company;
 
-import com.company.classes.SpaceMarine;
+import Classes.SpaceMarine;
 
 import java.util.List;
-import java.util.Vector;
 
 
 public class Demonstrate {
@@ -11,7 +10,9 @@ public class Demonstrate {
     public static boolean checkExist(int ID) {
         List<SpaceMarine> c = CollectionManager.getCollection();
         for (SpaceMarine spaceMarine:CollectionManager.getCollection()) {
-            return spaceMarine.getId().equals(ID);
+            if (spaceMarine.getId().equals(ID)) {
+                return true;
+            }
         }
         return false;
     }

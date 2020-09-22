@@ -1,6 +1,6 @@
 package com.company;
 
-import com.company.classes.SpaceMarine;
+import Classes.SpaceMarine;
 
 public class Check {
 

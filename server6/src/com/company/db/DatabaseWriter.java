@@ -1,24 +1,28 @@
 package com.company.db;
 
-import com.company.classes.Chapter;
-import com.company.classes.Coordinates;
-import com.company.classes.SpaceMarine;
-import com.company.classes.User;
+import Classes.Chapter;
+import Classes.Coordinates;
+import Classes.SpaceMarine;
+import Classes.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 public class DatabaseWriter extends DatabaseConnection{
 
     private Logger log = LoggerFactory.getLogger(DatabaseWriter.class);
 
     public int saveSpaceMarine(SpaceMarine marine) throws SQLException {
+        marine.getCoordinates().setUser(marine.getUser());
+        marine.getChapter().setUser(marine.getUser());
+        // TODO: удалить
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO space_marine VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?)", GENERATED_COLUMNS)) {
             statement.setString(1, marine.getName());
             statement.setInt(2, saveCoordinates(marine.getCoordinates()));
-            statement.setString(3, marine.getCreationDate().toString());
+            statement.setString(3, new SimpleDateFormat("dd.MM.yyyy HH:mm").format(marine.getCreationDate()));
             statement.setLong(4, marine.getHealth());
             statement.setInt(5, marine.getHeartCount());
             statement.setInt(6, marine.getHeight());
@@ -51,9 +55,10 @@ public class DatabaseWriter extends DatabaseConnection{
     }
 
     public int saveCoordinates(Coordinates coordinates) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO coordinates VALUES (?, default, ?)", GENERATED_COLUMNS)){
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO coordinates VALUES (?, default, ?, ?)", GENERATED_COLUMNS)){
             statement.setDouble(1, coordinates.getX());
             statement.setLong(2, coordinates.getY());
+            statement.setInt(3, coordinates.getUser().getId());
             if (statement.executeUpdate() != 0) {
                 log.debug("Coordinates saved to db!");
             } else {
@@ -64,7 +69,7 @@ public class DatabaseWriter extends DatabaseConnection{
     }
 
     public int saveUser(User user) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO \"user\" VALUES (default, ?, ?)", GENERATED_COLUMNS)) {
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO \"user\" VALUES (?, default, ?)", GENERATED_COLUMNS)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
             if (statement.executeUpdate() != 0) {
@@ -98,6 +103,13 @@ public class DatabaseWriter extends DatabaseConnection{
                 log.error("Marine with id {} doesn`t updated", id);
                 throw new SQLException("Marine doesn`t updated");
             }
+        }
+    }
+
+    public void drop() throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM space_marine")) {
+            statement.executeUpdate();
+            log.info("База данных очищенна");
         }
     }
 

@@ -4,7 +4,7 @@ package com.company;
 * Сохранение коллекции в заданном формате (json — поэтому и имя класса такое)
  */
 
-import com.company.classes.SpaceMarine;
+import Classes.SpaceMarine;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;

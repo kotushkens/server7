@@ -1,13 +1,12 @@
 package com.company.server.workers;
 
-import com.company.сommands.Answer;
+import Commands.Answer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
 
 public class HandlerWorker implements Runnable {
 
